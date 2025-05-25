@@ -1,8 +1,8 @@
 import {
   generateLoaderAbsoluteTemplate,
-  generateReportItemTemplate,
-  generateReportsListEmptyTemplate,
-  generateReportsListErrorTemplate,
+  generateStoryItemTemplate,
+  generateStoriesListEmptyTemplate,
+  generateStoriesListErrorTemplate,
 } from '../../templates';
 import HomePresenter from './home-presenter';
 import * as CityCareAPI from '../../data/api';
@@ -17,15 +17,15 @@ export default class HomePage {
       <section class="container">
         <h1 class="section-title">Daftar Cerita</h1>
 
-        <div class="reports-list__container">
-          <div id="reports-list"></div>
-          <div id="reports-list-loading-container"></div>
+        <div class="stories-list__container">
+          <div id="stories-list"></div>
+          <div id="stories-list-loading-container"></div>
         </div>
       </section>
 
       <section>
-        <div class="reports-list__map__container">
-          <div id="map" class="reports-list__map"></div>
+        <div class="stories-list__map__container">
+          <div id="map" class="stories-list__map"></div>
           <div id="map-loading-container"></div>
         </div>
       </section>
@@ -41,13 +41,13 @@ export default class HomePage {
     await this.#presenter.initialGalleryAndMap();
   }
 
-  populateReportsList(message, reports) {
-    if (reports.length <= 0) {
-      this.populateReportsListEmpty();
+  populateStoriesList(message, stories) {
+    if (stories.length <= 0) {
+      this.populateStoriesListEmpty();
       return;
     }
 
-    const html = reports.reduce((accumulator, listStory) => {
+    const html = stories.reduce((accumulator, listStory) => {
       if (this.#map && listStory.lat != null && listStory.lon != null) {
         const coordinate = [listStory.lat, listStory.lon];
         const markerOptions = { alt: listStory.name };
@@ -56,24 +56,24 @@ export default class HomePage {
       }
 
       return accumulator.concat(
-        generateReportItemTemplate({
+        generateStoryItemTemplate({
           ...listStory,
           name: listStory.name,
         }),
       );
     }, '');
 
-    document.getElementById('reports-list').innerHTML = `
-      <div class="reports-list">${html}</div>
+    document.getElementById('stories-list').innerHTML = `
+      <div class="stories-list">${html}</div>
     `;
   }
 
-  populateReportsListEmpty() {
-    document.getElementById('reports-list').innerHTML = generateReportsListEmptyTemplate();
+  populateStoriesListEmpty() {
+    document.getElementById('stories-list').innerHTML = generateStoriesListEmptyTemplate();
   }
 
-  populateReportsListError(message) {
-    document.getElementById('reports-list').innerHTML = generateReportsListErrorTemplate(message);
+  populateStoriesListError(message) {
+    document.getElementById('stories-list').innerHTML = generateStoriesListErrorTemplate(message);
   }
 
   async initialMap() {
@@ -93,11 +93,11 @@ export default class HomePage {
   }
 
   showLoading() {
-    document.getElementById('reports-list-loading-container').innerHTML =
+    document.getElementById('stories-list-loading-container').innerHTML =
       generateLoaderAbsoluteTemplate();
   }
 
   hideLoading() {
-    document.getElementById('reports-list-loading-container').innerHTML = '';
+    document.getElementById('stories-list-loading-container').innerHTML = '';
   }
 }

@@ -18,27 +18,26 @@ export default class NewPresenter {
     }
   }
 
-  async postNewReport({ name, description, photo, lat, lon }) {
+  async postNewStory({ description, photo, lat, lon }) {
     this.#view.showSubmitLoadingButton();
     try {
       const data = {
-        // name: name,
         description: description,
         photo: photo,
         lat: lat,
         lon: lon,
       };
-      const response = await this.#model.storeNewReport(data);
+      const response = await this.#model.storeNewStory(data);
 
       if (!response.ok) {
-        console.error('postNewReport: response:', response);
+        console.error('postNewStory: response:', response);
         this.#view.storeFailed(response.message);
         return;
       }
 
       this.#view.storeSuccessfully(response.message, response.data);
     } catch (error) {
-      console.error('postNewReport: error:', error);
+      console.error('postNewStory: error:', error);
       this.#view.storeFailed(error.message);
     } finally {
       this.#view.hideSubmitLoadingButton();

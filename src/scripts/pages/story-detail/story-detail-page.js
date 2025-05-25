@@ -2,19 +2,19 @@ import {
   generateCommentsListEmptyTemplate,
   generateCommentsListErrorTemplate,
   generateLoaderAbsoluteTemplate,
-  generateRemoveReportButtonTemplate,
-  generateReportCommentItemTemplate,
-  generateReportDetailErrorTemplate,
-  generateReportDetailTemplate,
-  generateSaveReportButtonTemplate,
+  generateRemoveStoryButtonTemplate,
+  generateStoryCommentItemTemplate,
+  generateStoryDetailErrorTemplate,
+  generateStoryDetailTemplate,
+  generateSaveStoryButtonTemplate,
 } from '../../templates';
 import { createCarousel } from '../../utils';
-import ReportDetailPresenter from './report-detail-presenter';
+import StoryDetailPresenter from './story-presenter';
 import { parseActivePathname } from '../../routes/url-parser';
 import * as CityCareAPI from '../../data/api';
 import Map from '../../utils/map';
 
-export default class ReportDetailPage {
+export default class StoryDetailPage {
   #presenter = null;
   #form = null;
   #map = null;
@@ -22,9 +22,9 @@ export default class ReportDetailPage {
   async render() {
     return `
       <section>
-        <div class="report-detail__container">
-          <div id="report-detail" class="report-detail"></div>
-          <div id="report-detail-loading-container"></div>
+        <div class="story-detail__container">
+          <div id="story-detail" class="story-detail"></div>
+          <div id="story-detail-loading-container"></div>
         </div>
       </section>
       
@@ -32,19 +32,19 @@ export default class ReportDetailPage {
   }
 
   async afterRender() {
-    this.#presenter = new ReportDetailPresenter(parseActivePathname().id, {
+    this.#presenter = new StoryDetailPresenter(parseActivePathname().id, {
       view: this,
       apiModel: CityCareAPI,
     });
 
     // this.#setupForm();
 
-    this.#presenter.showReportDetail();
+    this.#presenter.showStoryDetail();
     // this.#presenter.getCommentsList();
   }
 
-  async populateReportDetailAndInitialMap(message, story) {
-    document.getElementById('report-detail').innerHTML = generateReportDetailTemplate({
+  async populateStoryDetailAndInitialMap(message, story) {
+    document.getElementById('story-detail').innerHTML = generateStoryDetailTemplate({
       name: story.name,
       description: story.description,
       photoUrl: story.photoUrl,
@@ -58,13 +58,13 @@ export default class ReportDetailPage {
     // createCarousel(document.getElementById('images'));
 
     // Map
-    await this.#presenter.showReportDetailMap();
+    await this.#presenter.showStoryDetailMap();
     if (this.#map) {
-      const reportCoordinate = [story.lat, story.lon];
+      const storyCoordinate = [story.lat, story.lon];
       const markerOptions = { alt: story.name };
       const popupOptions = { content: story.name };
-      this.#map.changeCamera(reportCoordinate);
-      this.#map.addMarker(reportCoordinate, markerOptions, popupOptions);
+      this.#map.changeCamera(storyCoordinate);
+      this.#map.addMarker(storyCoordinate, markerOptions, popupOptions);
     }
 
     // Actions buttons
@@ -72,11 +72,11 @@ export default class ReportDetailPage {
     // this.addNotifyMeEventListener();
   }
 
-  populateReportDetailError(message) {
-    document.getElementById('report-detail').innerHTML = generateReportDetailErrorTemplate(message);
+  populateStoryDetailError(message) {
+    document.getElementById('story-detail').innerHTML = generateStoryDetailErrorTemplate(message);
   }
 
-  populateReportDetailComments(message, comments) {
+  populateStoryDetailComments(message, comments) {
     if (comments.length <= 0) {
       this.populateCommentsListEmpty();
       return;
@@ -85,7 +85,7 @@ export default class ReportDetailPage {
     const html = comments.reduce(
       (accumulator, comment) =>
         accumulator.concat(
-          generateReportCommentItemTemplate({
+          generateStoryCommentItemTemplate({
             photoUrlCommenter: comment.photoUrl,
             nameCommenter: comment.name,
             body: comment.body,
@@ -94,18 +94,18 @@ export default class ReportDetailPage {
       '',
     );
 
-    document.getElementById('report-detail-comments-list').innerHTML = `
-      <div class="report-detail__comments-list">${html}</div>
+    document.getElementById('story-detail-comments-list').innerHTML = `
+      <div class="story-detail__comments-list">${html}</div>
     `;
   }
 
   populateCommentsListEmpty() {
-    document.getElementById('report-detail-comments-list').innerHTML =
+    document.getElementById('story-detail-comments-list').innerHTML =
       generateCommentsListEmptyTemplate();
   }
 
   populateCommentsListError(message) {
-    document.getElementById('report-detail-comments-list').innerHTML =
+    document.getElementById('story-detail-comments-list').innerHTML =
       generateCommentsListErrorTemplate(message);
   }
 
@@ -145,35 +145,35 @@ export default class ReportDetailPage {
 
   // renderSaveButton() {
   //   document.getElementById('save-actions-container').innerHTML =
-  //     generateSaveReportButtonTemplate();
+  //     generateSaveStoryButtonTemplate();
 
-  //   document.getElementById('report-detail-save').addEventListener('click', async () => {
+  //   document.getElementById('story-detail-save').addEventListener('click', async () => {
   //     alert('Fitur simpan laporan akan segera hadir!');
   //   });
   // }
 
   // renderRemoveButton() {
   //   document.getElementById('save-actions-container').innerHTML =
-  //     generateRemoveReportButtonTemplate();
+  //     generateRemoveStoryButtonTemplate();
 
-  //   document.getElementById('report-detail-remove').addEventListener('click', async () => {
+  //   document.getElementById('story-detail-remove').addEventListener('click', async () => {
   //     alert('Fitur simpan laporan akan segera hadir!');
   //   });
   // }
 
   // addNotifyMeEventListener() {
-  //   document.getElementById('report-detail-notify-me').addEventListener('click', () => {
+  //   document.getElementById('story-detail-notify-me').addEventListener('click', () => {
   //     alert('Fitur notifikasi laporan akan segera hadir!');
   //   });
   // }
 
-  showReportDetailLoading() {
-    document.getElementById('report-detail-loading-container').innerHTML =
+  showStoryDetailLoading() {
+    document.getElementById('story-detail-loading-container').innerHTML =
       generateLoaderAbsoluteTemplate();
   }
 
-  hideReportDetailLoading() {
-    document.getElementById('report-detail-loading-container').innerHTML = '';
+  hideStoryDetailLoading() {
+    document.getElementById('story-detail-loading-container').innerHTML = '';
   }
 
   showMapLoading() {

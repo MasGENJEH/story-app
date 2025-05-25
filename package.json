@@ -10,7 +10,7 @@
     "prettier:write": "prettier . --write"
   },
   "keywords": [],
-  "author": "Your Name <your_email>",
+  "author": "Your Name fahriibnu1234@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.25.7",

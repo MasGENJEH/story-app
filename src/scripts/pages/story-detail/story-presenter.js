@@ -1,53 +1,53 @@
-import { reportMapper } from '../../data/api-mapper';
+import { storyMapper } from '../../data/api-mapper';
 
-export default class ReportDetailPresenter {
-  #reportId;
+export default class StoryDetailPresenter {
+  #storyId;
   #view;
   #apiModel;
 
-  constructor(reportId, { view, apiModel }) {
-    this.#reportId = reportId;
+  constructor(storyId, { view, apiModel }) {
+    this.#storyId = storyId;
     this.#view = view;
     this.#apiModel = apiModel;
   }
 
-  async showReportDetailMap() {
+  async showStoryDetailMap() {
     this.#view.showMapLoading();
     try {
       await this.#view.initialMap();
     } catch (error) {
-      console.error('showReportDetailMap: error:', error);
+      console.error('showStoryDetailMap: error:', error);
     } finally {
       this.#view.hideMapLoading();
     }
   }
 
-  async showReportDetail() {
-    this.#view.showReportDetailLoading();
+  async showStoryDetail() {
+    this.#view.showStoryDetailLoading();
     try {
-      const response = await this.#apiModel.getReportById(this.#reportId);
+      const response = await this.#apiModel.getStoryById(this.#storyId);
 
       if (!response.ok) {
-        console.error('showReportDetailAndMap: response:', response);
-        this.#view.populateReportDetailError(response.message);
+        console.error('showStoryDetailAndMap: response:', response);
+        this.#view.populateStoryDetailError(response.message);
         return;
       }
-      const story = await reportMapper(response.story);
+      const story = await storyMapper(response.story);
       console.log(story); // for debugging purpose, remove after checking it
-      this.#view.populateReportDetailAndInitialMap(response.message, story);
+      this.#view.populateStoryDetailAndInitialMap(response.message, story);
     } catch (error) {
-      console.error('showReportDetailAndMap: error:', error);
-      this.#view.populateReportDetailError(error.message);
+      console.error('showStoryDetailAndMap: error:', error);
+      this.#view.populateStoryDetailError(error.message);
     } finally {
-      this.#view.hideReportDetailLoading();
+      this.#view.hideStoryDetailLoading();
     }
   }
 
   // async getCommentsList() {
   //   this.#view.showCommentsLoading();
   //   try {
-  //     const response = await this.#apiModel.getAllCommentsByReportId(this.#reportId);
-  //     this.#view.populateReportDetailComments(response.message, response.story);
+  //     const response = await this.#apiModel.getAllCommentsByStoryId(this.#storyId);
+  //     this.#view.populateStoryDetailComments(response.message, response.story);
   //   } catch (error) {
   //     console.error('getCommentsList: error:', error);
   //     this.#view.populateCommentsListError(error.message);
@@ -59,7 +59,7 @@ export default class ReportDetailPresenter {
   // async postNewComment({ body }) {
   //   this.#view.showSubmitLoadingButton();
   //   try {
-  //     const response = await this.#apiModel.storeNewCommentByReportId(this.#reportId, { body });
+  //     const response = await this.#apiModel.storeNewCommentByStoryId(this.#storyId, { body });
 
   //     if (!response.ok) {
   //       console.error('postNewComment: response:', response);
@@ -77,7 +77,7 @@ export default class ReportDetailPresenter {
   // }
 
   // showSaveButton() {
-  //   if (this.#isReportSaved()) {
+  //   if (this.#isStorySaved()) {
   //     this.#view.renderRemoveButton();
   //     return;
   //   }
@@ -85,7 +85,7 @@ export default class ReportDetailPresenter {
   //   this.#view.renderSaveButton();
   // }
 
-  // #isReportSaved() {
+  // #isStorySaved() {
   //   return false;
   // }
 }

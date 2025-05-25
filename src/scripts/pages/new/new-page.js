@@ -16,10 +16,10 @@ export default class NewPage {
   async render() {
     return `
       <section>
-        <div class="new-report__header">
+        <div class="new-story__header">
           <div class="container">
-            <h1 class="new-report__header__title">Buat Cerita Baru</h1>
-            <p class="new-report__header__description">
+            <h1 class="new-story__header__title">Buat Cerita Baru</h1>
+            <p class="new-story__header__description">
             </p>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default class NewPage {
         lat: this.#form.elements.namedItem('lat').value,
         lon: this.#form.elements.namedItem('lon').value,
       };
-      await this.#presenter.postNewReport(data);
+      await this.#presenter.postNewStory(data);
     });
 
     document.getElementById('documentations-input').addEventListener('change', async (event) => {
@@ -203,13 +203,15 @@ export default class NewPage {
     this.#map.addMapEventListener('click', (event) => {
       draggableMarker.setLatLng(event.latlng);
 
-      // Keep center with user view
       event.sourceTarget.flyTo(event.latlng);
     });
   }
   #updateLatLngInput(latitude, longitude) {
-    this.#form.elements.namedItem('lat').value = latitude;
-    this.#form.elements.namedItem('lon').value = longitude;
+    const roundedLat = parseFloat(latitude).toFixed(5);
+    const roundedLon = parseFloat(longitude).toFixed(5);
+
+    this.#form.elements.namedItem('lat').value = roundedLat;
+    this.#form.elements.namedItem('lon').value = roundedLon;
   }
 
   #setupCamera() {
