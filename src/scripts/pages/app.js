@@ -3,11 +3,12 @@ import {
   generateAuthenticatedNavigationListTemplate,
   generateMainNavigationListTemplate,
   generateUnauthenticatedNavigationListTemplate,
+  generateSubscribeButtonTemplate,
 } from '../templates';
-import { setupSkipToContent, transitionHelper } from '../utils';
+import { isServiceWorkerAvailable, setupSkipToContent, transitionHelper } from '../utils';
 import { getAccessToken, getLogout } from '../utils/auth';
 import { routes } from '../routes/routes';
-
+import { subscribe } from '../utils/notification-helper';
 export default class App {
   #content;
   #drawerButton;
@@ -77,6 +78,14 @@ export default class App {
     });
   }
 
+  async #setupPushNotification() {
+    const pushNotificationTools = document.getElementById('push-notification-tools');
+    pushNotificationTools.innerHTML = generateSubscribeButtonTemplate();
+    document.getElementById('subscribe-button').addEventListener('click', () => {
+      subscribe();
+    });
+  }
+
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
@@ -95,6 +104,10 @@ export default class App {
     transition.updateCallbackDone.then(() => {
       scrollTo({ top: 0, behavior: 'instant' });
       this.#setupNavigationList();
+
+      if (isServiceWorkerAvailable()) {
+        this.#setupPushNotification();
+      }
     });
   }
 }

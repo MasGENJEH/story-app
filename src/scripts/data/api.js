@@ -11,6 +11,7 @@ const ENDPOINTS = {
   STORY_LIST: `${BASE_URL}/stories`,
   STORY_DETAIL: (id) => `${BASE_URL}/stories/${id}`,
   STORE_NEW_STORY: `${BASE_URL}/stories`,
+  SUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
 };
 
 export async function getRegistered({ name, email, password }) {
