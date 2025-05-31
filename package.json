@@ -5,7 +5,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.prod.js",
     "start-dev": "webpack serve --config ./webpack.dev.js",
-    "serve": "http-server ./dist --port 3001",
+    "serve": "http-server ./dist --port 9000",
     "prettier": "prettier . --check",
     "prettier:write": "prettier . --write"
   },
