@@ -78,13 +78,14 @@ export default class StoryDetailPresenter {
   //   }
   // }
 
-  async saveReport() {
+  async saveStory() {
     try {
-      const report = await this.#apiModel.getReportById(this.#storyId);
-      await this.#dbModel.putReport(report.data);
+      const response = await this.#apiModel.getStoryById(this.#storyId);
+      const story = await this.#apiModel.getStoryById(this.#storyId);
+      await this.#dbModel.putStory(response.story);
       this.#view.saveToBookmarkSuccessfully('Success to save to bookmark');
     } catch (error) {
-      console.error('saveReport: error:', error);
+      console.error('saveStory: error:', error);
       this.#view.saveToBookmarkFailed(error.message);
     }
   }

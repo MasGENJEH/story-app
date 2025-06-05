@@ -70,7 +70,7 @@ export default class StoryDetailPage {
     }
 
     // Actions buttons
-    // this.#presenter.showSaveButton();
+    this.#presenter.showSaveButton();
     // this.addNotifyMeEventListener();
   }
 
@@ -149,7 +149,7 @@ export default class StoryDetailPage {
     document.getElementById('save-actions-container').innerHTML = generateSaveStoryButtonTemplate();
 
     document.getElementById('story-detail-save').addEventListener('click', async () => {
-      await this.#presenter.saveReport();
+      await this.#presenter.saveStory();
     });
   }
 
