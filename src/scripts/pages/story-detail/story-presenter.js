@@ -4,11 +4,13 @@ export default class StoryDetailPresenter {
   #storyId;
   #view;
   #apiModel;
+  #dbModel;
 
-  constructor(storyId, { view, apiModel }) {
+  constructor(storyId, { view, apiModel, dbModel }) {
     this.#storyId = storyId;
     this.#view = view;
     this.#apiModel = apiModel;
+    this.#dbModel = dbModel;
   }
 
   async showStoryDetailMap() {
@@ -76,16 +78,27 @@ export default class StoryDetailPresenter {
   //   }
   // }
 
-  // showSaveButton() {
-  //   if (this.#isStorySaved()) {
-  //     this.#view.renderRemoveButton();
-  //     return;
-  //   }
+  async saveReport() {
+    try {
+      const report = await this.#apiModel.getReportById(this.#storyId);
+      await this.#dbModel.putReport(report.data);
+      this.#view.saveToBookmarkSuccessfully('Success to save to bookmark');
+    } catch (error) {
+      console.error('saveReport: error:', error);
+      this.#view.saveToBookmarkFailed(error.message);
+    }
+  }
 
-  //   this.#view.renderSaveButton();
-  // }
+  showSaveButton() {
+    if (this.#isStorySaved()) {
+      this.#view.renderRemoveButton();
+      return;
+    }
 
-  // #isStorySaved() {
-  //   return false;
-  // }
+    this.#view.renderSaveButton();
+  }
+
+  #isStorySaved() {
+    return false;
+  }
 }

@@ -13,6 +13,7 @@ import StoryDetailPresenter from './story-presenter';
 import { parseActivePathname } from '../../routes/url-parser';
 import * as CityCareAPI from '../../data/api';
 import Map from '../../utils/map';
+import Database from '../../data/database';
 
 export default class StoryDetailPage {
   #presenter = null;
@@ -35,6 +36,7 @@ export default class StoryDetailPage {
     this.#presenter = new StoryDetailPresenter(parseActivePathname().id, {
       view: this,
       apiModel: CityCareAPI,
+      dbModel: Database,
     });
 
     // this.#setupForm();
@@ -143,23 +145,29 @@ export default class StoryDetailPage {
     this.#form.reset();
   }
 
-  // renderSaveButton() {
-  //   document.getElementById('save-actions-container').innerHTML =
-  //     generateSaveStoryButtonTemplate();
+  renderSaveButton() {
+    document.getElementById('save-actions-container').innerHTML = generateSaveStoryButtonTemplate();
 
-  //   document.getElementById('story-detail-save').addEventListener('click', async () => {
-  //     alert('Fitur simpan laporan akan segera hadir!');
-  //   });
-  // }
+    document.getElementById('story-detail-save').addEventListener('click', async () => {
+      await this.#presenter.saveReport();
+    });
+  }
 
-  // renderRemoveButton() {
-  //   document.getElementById('save-actions-container').innerHTML =
-  //     generateRemoveStoryButtonTemplate();
+  saveToBookmarkSuccessfully(message) {
+    console.log(message);
+  }
+  saveToBookmarkFailed(message) {
+    alert(message);
+  }
 
-  //   document.getElementById('story-detail-remove').addEventListener('click', async () => {
-  //     alert('Fitur simpan laporan akan segera hadir!');
-  //   });
-  // }
+  renderRemoveButton() {
+    document.getElementById('save-actions-container').innerHTML =
+      generateRemoveStoryButtonTemplate();
+
+    document.getElementById('story-detail-remove').addEventListener('click', async () => {
+      alert('Fitur simpan laporan akan segera hadir!');
+    });
+  }
 
   // addNotifyMeEventListener() {
   //   document.getElementById('story-detail-notify-me').addEventListener('click', () => {
