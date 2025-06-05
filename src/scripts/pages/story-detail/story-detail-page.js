@@ -150,6 +150,7 @@ export default class StoryDetailPage {
 
     document.getElementById('story-detail-save').addEventListener('click', async () => {
       await this.#presenter.saveStory();
+      await this.#presenter.showSaveButton();
     });
   }
 

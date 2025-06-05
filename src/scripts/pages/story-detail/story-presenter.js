@@ -99,7 +99,7 @@ export default class StoryDetailPresenter {
     this.#view.renderSaveButton();
   }
 
-  #isStorySaved() {
-    return false;
+  async #isStorySaved() {
+    return !!(await this.#dbModel.getStoryById(this.#storyId));
   }
 }

@@ -15,7 +15,8 @@ export function generateLoaderAbsoluteTemplate() {
 export function generateMainNavigationListTemplate() {
   return `
     <li><a id="story-list-button" class="story-list-button" href="#/">Daftar Cerita</a></li>
-  `;
+    <li><a id="bookmark-button" class="bookmark-button" href="#/bookmark">Cerita Tersimpan</a></li>  
+    `;
 }
 
 export function generateUnauthenticatedNavigationListTemplate() {

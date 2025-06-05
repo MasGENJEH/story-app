@@ -19,5 +19,16 @@ const Database = {
     }
     return (await dbPromise).put(OBJECT_STORE_NAME, story);
   },
+
+  async getStoryById(id) {
+    if (!id) {
+      throw new Error('`id` is required.');
+    }
+    return (await dbPromise).get(OBJECT_STORE_NAME, id);
+  },
+
+  async getAllStories() {
+    return (await dbPromise).getAll(OBJECT_STORE_NAME);
+  },
 };
 export default Database;
