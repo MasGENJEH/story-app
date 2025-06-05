@@ -90,8 +90,33 @@ export default class StoryDetailPresenter {
     }
   }
 
-  showSaveButton() {
-    if (this.#isStorySaved()) {
+  async removeStory() {
+    try {
+      await this.#dbModel.removeStory(this.#storyId);
+      this.#view.removeFromBookmarkSuccessfully('Success to remove from bookmark');
+    } catch (error) {
+      console.error('removeStory: error:', error);
+      this.#view.removeFromBookmarkFailed(error.message);
+    }
+  }
+
+  // async notifyMe() {
+  //   try {
+  //     const response = await this.#apiModel.sendReportToMeViaNotification(this.#storyId);
+
+  //     if (!response.ok) {
+  //       console.error('notifyMe: response:', response);
+  //       return;
+  //     }
+
+  //     console.log('notifyMe:', response.message);
+  //   } catch (error) {
+  //     console.error('notifyMe: error:', error);
+  //   }
+  // }
+
+  async showSaveButton() {
+    if (await this.#isStorySaved()) {
       this.#view.renderRemoveButton();
       return;
     }

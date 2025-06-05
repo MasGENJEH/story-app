@@ -6,9 +6,11 @@ import {
 } from '../../templates';
 import BookmarkPresenter from './bookmark-presenter';
 import Database from '../../data/database';
+import Map from '../../utils/map';
 
 export default class BookmarkPage {
   #presenter = null;
+  #map = null;
 
   async render() {
     return `
@@ -44,6 +46,13 @@ export default class BookmarkPage {
     }
 
     const html = stories.reduce((accumulator, story) => {
+      if (this.#map) {
+        const coordinate = [story.lat, story.lon];
+        const markerOptions = { alt: story.title };
+        const popupOptions = { content: story.title };
+        this.#map.addMarker(coordinate, markerOptions, popupOptions);
+      }
+
       return accumulator.concat(
         generateStoryItemTemplate({
           ...story,
@@ -56,6 +65,19 @@ export default class BookmarkPage {
     document.getElementById('stories-list').innerHTML = `
       <div class="stories-list">${html}</div>
     `;
+  }
+
+  async initialMap() {
+    this.#map = await Map.build('#map', {
+      zoom: 10,
+      locate: true,
+    });
+  }
+  showMapLoading() {
+    document.getElementById('map-loading-container').innerHTML = generateLoaderAbsoluteTemplate();
+  }
+  hideMapLoading() {
+    document.getElementById('map-loading-container').innerHTML = '';
   }
 
   populateBookmarkedStoriesListEmpty() {

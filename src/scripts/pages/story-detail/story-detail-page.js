@@ -70,7 +70,7 @@ export default class StoryDetailPage {
     }
 
     // Actions buttons
-    this.#presenter.showSaveButton();
+    await this.#presenter.showSaveButton();
     // this.addNotifyMeEventListener();
   }
 
@@ -166,13 +166,20 @@ export default class StoryDetailPage {
       generateRemoveStoryButtonTemplate();
 
     document.getElementById('story-detail-remove').addEventListener('click', async () => {
-      alert('Fitur simpan laporan akan segera hadir!');
+      await this.#presenter.removeStory();
+      await this.#presenter.showSaveButton();
     });
+  }
+  removeFromBookmarkSuccessfully(message) {
+    console.log(message);
+  }
+  removeFromBookmarkFailed(message) {
+    alert(message);
   }
 
   // addNotifyMeEventListener() {
   //   document.getElementById('story-detail-notify-me').addEventListener('click', () => {
-  //     alert('Fitur notifikasi laporan akan segera hadir!');
+  //     this.#presenter.notifyMe();
   //   });
   // }
 

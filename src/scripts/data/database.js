@@ -30,5 +30,9 @@ const Database = {
   async getAllStories() {
     return (await dbPromise).getAll(OBJECT_STORE_NAME);
   },
+
+  async removeStory(id) {
+    return (await dbPromise).delete(OBJECT_STORE_NAME, id);
+  },
 };
 export default Database;
