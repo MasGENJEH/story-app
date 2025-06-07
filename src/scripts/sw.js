@@ -46,7 +46,7 @@ registerRoute(
     return baseUrl.origin === url.origin && request.destination !== 'image';
   },
   new NetworkFirst({
-    cacheName: 'citycare-api',
+    cacheName: 'story-api',
   }),
 );
 registerRoute(
@@ -55,7 +55,7 @@ registerRoute(
     return baseUrl.origin === url.origin && request.destination === 'image';
   },
   new StaleWhileRevalidate({
-    cacheName: 'citycare-api-images',
+    cacheName: 'story-api-images',
   }),
 );
 registerRoute(
@@ -67,18 +67,6 @@ registerRoute(
   }),
 );
 
-// self.addEventListener('push', (event) => {
-//   console.log('Service worker pushing...');
-
-//   async function chainPromise() {
-//     await self.registration.showNotification('Ada laporan baru untuk Anda!', {
-//       body: 'Terjadi kerusakan lampu jalan di Jl. Melati',
-//     });
-//   }
-
-//   event.waitUntil(chainPromise());
-// });
-
 self.addEventListener('push', (event) => {
   console.log('[SW] Push event received.');
 
@@ -86,15 +74,11 @@ self.addEventListener('push', (event) => {
     let notificationTitle = 'Notifikasi Baru';
     let notificationOptions = {
       body: 'Anda mendapatkan pesan baru.',
-      // icon: '/images/logo.png', // Ganti dengan path ikon aplikasi Anda
-      // badge: '/images/badge.png',
-      // data: { url: '/' } // Default jika tidak ada data di payload
     };
 
     if (event.data) {
       console.log('[SW] Push event has data.');
       try {
-        // Coba parse sebagai JSON
         const data = await event.data.json();
         console.log('[SW] Push data (JSON):', data);
 
@@ -105,18 +89,13 @@ self.addEventListener('push', (event) => {
         } else if (data.body) {
           notificationOptions.body = data.body;
         }
-        // Jika ada data spesifik di payload untuk diklik
         if (data.url) {
           notificationOptions.data = { url: data.url };
         }
       } catch (e) {
-        // Jika parsing JSON gagal, anggap sebagai teks biasa
         console.warn('[SW] Push data is not valid JSON, treating as plain text.');
         const plainText = await event.data.text();
         notificationOptions.body = plainText;
-        // Anda bisa set judul berdasarkan sebagian teks jika mau
-        // notificationTitle = plainText.substring(0, 20) + "...";
-        // notificationOptions.data = { url: '/' }; // Default URL jika hanya teks
       }
     } else {
       console.log('[SW] Push event has no data.');
@@ -126,17 +105,15 @@ self.addEventListener('push', (event) => {
       `[SW] Showing notification: Title='${notificationTitle}', Options=`,
       notificationOptions,
     );
-    // Menampilkan notifikasi
     await self.registration.showNotification(notificationTitle, notificationOptions);
   }
 
   event.waitUntil(showDynamicNotification());
 });
 
-// Opsional: Tambahkan listener untuk 'notificationclick'
 self.addEventListener('notificationclick', (event) => {
   console.log('[SW] Notification click Received.');
-  event.notification.close(); // Tutup notifikasi
+  event.notification.close();
 
   const urlToOpen =
     event.notification.data && event.notification.data.url ? event.notification.data.url : '/';

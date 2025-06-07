@@ -22,7 +22,7 @@ export default class BookmarkPage {
       </section>
  
       <section class="container">
-        <h1 class="section-title">Daftar Laporan Kerusakan Tersimpan</h1>
+        <h1 class="section-title">Daftar Cerita Tersimpan</h1>
  
         <div class="stories-list__container">
           <div id="stories-list"></div>

@@ -38,8 +38,8 @@ export function generateAuthenticatedNavigationListTemplate() {
 export function generateStoriesListEmptyTemplate() {
   return `
     <div id="stories-list-empty" class="stories-list__empty">
-      <h2>Tidak ada laporan yang tersedia</h2>
-      <p>Saat ini, tidak ada laporan kerusakan fasilitas umum yang dapat ditampilkan.</p>
+      <h2>Tidak ada cerita yang tersedia</h2>
+      <p>Saat ini, tidak ada cerita yang dapat ditampilkan.</p>
     </div>
   `;
 }
@@ -47,7 +47,7 @@ export function generateStoriesListEmptyTemplate() {
 export function generateStoriesListErrorTemplate(message) {
   return `
     <div id="stories-list-error" class="stories-list__error">
-      <h2>Terjadi kesalahan pengambilan daftar laporan</h2>
+      <h2>Terjadi kesalahan pengambilan daftar cerita</h2>
       <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
     </div>
   `;
@@ -231,7 +231,7 @@ export function generateUnsubscribeButtonTemplate() {
 export function generateSaveStoryButtonTemplate() {
   return `
     <button id="story-detail-save" class="btn btn-transparent">
-      Simpan laporan <i class="far fa-bookmark"></i>
+      Simpan Cerita <i class="far fa-bookmark"></i>
     </button>
   `;
 }
@@ -239,7 +239,7 @@ export function generateSaveStoryButtonTemplate() {
 export function generateRemoveStoryButtonTemplate() {
   return `
     <button id="story-detail-remove" class="btn btn-transparent">
-      Buang laporan <i class="fas fa-bookmark"></i>
+      Buang Cerita <i class="fas fa-bookmark"></i>
     </button>
   `;
 }
