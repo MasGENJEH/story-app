@@ -1,7 +1,7 @@
 {
-  "name": "citycareapp",
+  "name": "storyapp",
   "version": "1.0.0",
-  "description": "Aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan warga Indonesia melaporkan masalah secara langsung kepada pemerintah kota. Dengan aplikasi ini, komunikasi antara warga dan pemerintah menjadi lebih efisien dalam menangani dan menindaklanjuti laporan kerusakan fasilitas umum.",
+  "description": "Aplikasi ini dibuat untuk memenuhi kebutuhan tugas yang diberikan dicoding untuk menyelesaikan submission tugas akhir",
   "scripts": {
     "build": "webpack --config ./webpack.prod.js",
     "start-dev": "webpack serve --config ./webpack.dev.js",
@@ -13,6 +13,7 @@
   "author": "Your Name fahriibnu1234@gmail.com",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.25.7",
     "babel-loader": "^9.2.1",
     "clean-webpack-plugin": "^4.0.0",
