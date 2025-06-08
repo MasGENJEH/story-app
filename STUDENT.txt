@@ -1,0 +1,2 @@
+APP_URL= https://masgenjeh.github.io/story-app/
+MAP_SERVICE_API_KEY= VcDc5G4tzPwf0i02dW9p
